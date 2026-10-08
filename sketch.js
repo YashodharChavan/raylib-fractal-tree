@@ -14,12 +14,20 @@ function isRunning() {
     return !r.WindowShouldClose();
 }
 
-function drawFractralTree(depth, thickness, degrees, length, startX, startY) {
+function drawFractralTree(
+    depth,
+    thickness,
+    degrees,
+    length,
+    degreeDifference,
+    startX,
+    startY,
+) {
     if (depth < 0) return;
 
     const endXLeft = g.getEndX(startX, degrees, length);
     const endYLeft = g.getEndY(startY, degrees, length);
-    const leftDegrees = degrees + 15;
+    const leftDegrees = degrees + degreeDifference;
 
     r.DrawLineEx(
         { x: startX, y: startY },
@@ -33,11 +41,12 @@ function drawFractralTree(depth, thickness, degrees, length, startX, startY) {
         thickness * 0.7,
         leftDegrees,
         length * 0.7,
+        degreeDifference,
         endXLeft,
         endYLeft,
     );
 
-    const rightDegrees = degrees - 15;
+    const rightDegrees = degrees - degreeDifference;
     const endXRight = g.getEndX(startX, degrees, length);
     const endYRight = g.getEndY(startY, degrees, length);
 
@@ -53,6 +62,7 @@ function drawFractralTree(depth, thickness, degrees, length, startX, startY) {
         thickness * 0.7,
         rightDegrees,
         length * 0.7,
+        degreeDifference,
         endXRight,
         endYRight,
     );
@@ -62,10 +72,12 @@ function draw() {
     r.BeginDrawing();
 
     const details = {
-        depth: 10,
+        depth: 15,
         thickness: 10,
         length: 150,
+        degreeDifference: 30,
     };
+
 
     const startX = windowWidth / 2;
     const startY = (9 * windowHeight) / 10;
@@ -75,6 +87,7 @@ function draw() {
         details.thickness,
         0,
         details.length,
+        details.degreeDifference,
         startX,
         startY,
     );
